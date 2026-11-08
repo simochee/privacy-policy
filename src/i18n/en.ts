@@ -7,9 +7,9 @@ export const en = {
   dataHeading: "Data",
   destinationsHeading: "Destinations",
   removalHeading: "Removing your data",
-  disclaimer: "Provided “as is,” without warranty.",
-  emailBefore: "Contact: ",
-  emailAfter: "",
+  disclaimer: "This extension is provided “as is,” without warranty.",
+  emailBefore: " For questions, email ",
+  emailAfter: ".",
   patterns: {
     noData: "This extension does not collect, store, or transmit any data.",
     localOnly:

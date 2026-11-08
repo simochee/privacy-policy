@@ -1,6 +1,6 @@
 :root {
   color-scheme: light dark;
-  font-family: Georgia, "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-family: "Shippori Mincho", serif;
   line-height: 1.8;
 }
 body {
@@ -58,8 +58,6 @@ h2 {
 }
 footer {
   margin-top: 3rem;
-  padding-top: 1rem;
-  border-top: 1px solid;
   font-size: 0.875rem;
 }
 aside {

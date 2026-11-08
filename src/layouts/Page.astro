@@ -1,6 +1,8 @@
 ---
 import { getAbsoluteLocaleUrl } from "astro:i18n";
 import type { Language } from "../i18n";
+import "@fontsource/shippori-mincho/400.css";
+import "@fontsource/shippori-mincho/700.css";
 import "../styles/site.css";
 interface Props { title: string; lang?: Language; slug?: string }
 const { title, lang = "en", slug } = Astro.props;

@@ -6,7 +6,8 @@ and in Japanese at `https://privacy.simochee.net/ja/<slug>/`. A header language
 switcher links to the same extension in the other language.
 There is no home page or navigation between extensions. GitHub Pages serves the
 custom `404.html` for `/` and unknown page paths; generated CSS is served as an asset.
-The published pages contain no client-side JavaScript or external font dependencies.
+The published pages contain no client-side JavaScript. Shippori Mincho is
+self-hosted; visitors do not connect to an external font service.
 
 ## Development
 
