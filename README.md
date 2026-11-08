@@ -25,21 +25,15 @@ Open `/backlog-live-update/` (English) or `/ja/backlog-live-update/` (Japanese).
 
 ```sh
 pnpm check   # Astro type checks and Biome lint/format checks
-pnpm test    # Builds, verifies output, tests invalid metadata, then rebuilds restored content
 pnpm build   # Static files in dist/
 pnpm preview # Preview the built site
 pnpm format  # Format TS, JS, JSON, and CSS with Biome
 ```
 
-Biome is limited to the file types above; Astro templates and Markdown are kept
+Biome is limited to the file types above; Astro components and Markdown are kept
 readable by hand. TypeScript 6 matches `astro check`'s supported range, and the
 `pnpm-workspace.yaml` override keeps its WASM runtime on stable emnapi 1.x, matching
 its core instead of the incompatible automatically selected 2.x beta peer.
-`pnpm test` temporarily modifies the example entry and creates
-two fixture entries, restores them in a `finally` block, and leaves a production
-build with just the real pages. Run it in an idle checkout, not alongside `dev`
-or another build. Tests check the build output; the live domain and DNS are
-verified after the human finishes deployment setup.
 
 ## Add an extension
 
@@ -49,13 +43,16 @@ verified after the human finishes deployment setup.
 2. Select the pattern that matches the extension's actual permissions and data use.
    Copy the example below or `backlog-live-update.md` for an API-using extension.
    To show its icon, place the file in `public/icons/` and set `icon: /icons/file.svg`;
-   omit `icon` to use the shared icon. SVG, PNG, WebP, and JPEG are supported.
+   or use a public repository's raw GitHub image URL, such as
+   `https://raw.githubusercontent.com/owner/repo/main/assets/icon.svg`.
+   GitHub images are loaded directly by the visitor's browser. Omit `icon` to use
+   the shared icon. SVG, PNG, WebP, and JPEG are supported.
 3. Supply both `en` and `ja` for every prose parameter. Review both languages
    against the implementation and store disclosures, including session storage,
    transient data and credential scope. Keep the policy concise and add extra
    details only when an extension differs from its shared pattern.
    Write Japanese values on one line; YAML folded blocks (`>-`) insert unwanted spaces at line joins.
-4. Run `pnpm check`, `pnpm test`, and `pnpm build`. Inspect the new page in
+4. Run `pnpm check` and `pnpm build`. Inspect the new page in
    `pnpm preview` before submitting a pull request.
 
 ```yaml
@@ -81,7 +78,7 @@ translations, and invalid pattern-specific fields fail the build.
 | Field | Shape / requirement |
 | --- | --- |
 | `name` | Required `{ en, ja }` nonempty strings |
-| `icon` | Optional local `/icons/filename` path; the file must exist in `public/icons/`. Defaults to `/icons/extension.svg` |
+| `icon` | Optional local `/icons/filename` path (must exist) or public `https://raw.githubusercontent.com/...` image URL. Defaults to `/icons/extension.svg` |
 | `updated` | Required quoted ISO calendar date, `YYYY-MM-DD` |
 | `pattern` | Required `no-data`, `local-only`, or `user-configured` |
 | `unofficial` | Required boolean |
@@ -100,10 +97,14 @@ The pattern, deletion instructions, and unofficial notice are normally enough.
 Use `storedData`, `hosts`, or `requests` only for details that need to be disclosed
 beyond the shared pattern. `no-data` does not allow a nonempty `storedData` list.
 
-Shared wording lives in `src/i18n/en.ts` and `src/i18n/ja.ts`, following Astro's
+A single policy component selects wording from `pattern`; separate pattern templates
+are unnecessary. Shared wording lives in `src/i18n/en.ts` and `src/i18n/ja.ts`, following Astro's
 [translation dictionary recipe](https://docs.astro.build/en/recipes/i18n/).
-Templates select `messages[lang]`; the Japanese dictionary must satisfy the
+Components select `messages[lang]`; the Japanese dictionary must satisfy the
 English dictionary's key and value types, including nested pattern wording.
+Messages can contain placeholders such as `{email}`. `InterpolatedText.astro`
+inserts matching named slots, so the email stays a link and each language keeps
+its complete sentence. Plain translation text remains escaped.
 Extension-specific translations remain in frontmatter. Astro
 [built-in i18n routing](https://docs.astro.build/en/guides/internationalization/)
 uses English as the default without a prefix, and Japanese under `/ja/`.

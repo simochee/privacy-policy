@@ -1,0 +1,15 @@
+---
+interface Props { text: string }
+const { text } = Astro.props;
+const parts = await Promise.all(
+  text.split(/(\{[a-zA-Z]\w*\})/).map(async (part) => {
+    const name = /^\{([a-zA-Z]\w*)\}$/.exec(part)?.[1];
+    if (!name) return { value: part, html: false };
+    if (!Astro.slots.has(name)) {
+      throw new Error(`Missing translation variable: ${name}`);
+    }
+    return { value: await Astro.slots.render(name), html: true };
+  }),
+);
+---
+{parts.map((part) => part.html ? <Fragment set:html={part.value} /> : part.value)}

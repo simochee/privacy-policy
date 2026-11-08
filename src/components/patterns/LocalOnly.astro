@@ -1,7 +1,0 @@
----
-import { messages, type Language } from "../../i18n";
-interface Props { lang: Language }
-const { lang } = Astro.props;
-const copy = messages[lang];
----
-<p>{copy.patterns.localOnly}</p>

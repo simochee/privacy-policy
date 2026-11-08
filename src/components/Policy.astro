@@ -1,26 +1,26 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { messages, type Language } from "../i18n";
-import NoData from "./patterns/NoData.astro";
-import LocalOnly from "./patterns/LocalOnly.astro";
-import UserConfigured from "./patterns/UserConfigured.astro";
+import InterpolatedText from "./InterpolatedText.astro";
 interface Props { lang: Language; data: CollectionEntry<"extensions">["data"] }
 const { lang, data } = Astro.props;
 const copy = messages[lang];
 const date = new Intl.DateTimeFormat(copy.locale, { dateStyle: "long", timeZone: "UTC" }).format(new Date(`${data.updated}T00:00:00Z`));
 ---
 <section lang={lang} aria-labelledby={`policy-${lang}`}>
-  <p><small>{copy.updated}<time datetime={data.updated}>{date}</time></small></p>
+  <p><small><InterpolatedText text={copy.updated}><time slot="date" datetime={data.updated}>{date}</time></InterpolatedText></small></p>
   {data.unofficial && <p>{data.unofficialNote?.[lang]}</p>}
   <h2>{copy.dataHeading}</h2>
   {data.storedData && data.storedData.length > 0 && <ul>{data.storedData.map((item) => <li>{item[lang]}</li>)}</ul>}
-  {data.pattern === "no-data" && <NoData lang={lang} />}
-  {data.pattern === "local-only" && <LocalOnly lang={lang} />}
-  {data.pattern === "user-configured" && <UserConfigured lang={lang} data={data} />}
+  <p>{copy.patterns[data.pattern]}</p>
+  {data.pattern === "user-configured" && <>
+    {data.hosts && <p>{copy.destinationsHeading}: <code>{data.hosts.join(", ")}</code></p>}
+    {data.requests && <p>{data.requests[lang]}</p>}
+  </>}
   <h2>{copy.removalHeading}</h2>
   <p>{data.removal[lang]}</p>
   <slot />
 </section>
 <footer>
-  <p>{copy.disclaimer}<br />{copy.emailBefore}<a href="mailto:contact@simochee.net">contact@simochee.net</a>{copy.emailAfter}</p>
+  <p>{copy.disclaimer}<br /><InterpolatedText text={copy.contact}><a slot="email" href="mailto:contact@simochee.net">contact@simochee.net</a></InterpolatedText></p>
 </footer>
