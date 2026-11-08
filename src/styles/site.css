@@ -1,0 +1,97 @@
+:root {
+  color-scheme: light dark;
+  font-family: "Shippori Mincho", serif;
+  line-height: 1.8;
+  color: #252525;
+  background-color: #fff;
+}
+body {
+  margin: 0;
+}
+main {
+  max-width: 48rem;
+  margin: 3rem auto;
+  padding: 0 1.5rem;
+  overflow-wrap: anywhere;
+}
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  margin-bottom: 2rem;
+}
+header nav {
+  display: flex;
+  gap: 1.5rem;
+}
+header > div {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+header img {
+  flex: none;
+  width: 4rem;
+  height: 4rem;
+}
+header p {
+  margin: 0 0 0.25rem;
+  line-height: 1.2;
+}
+header a[aria-current="page"] {
+  font-weight: bold;
+  text-decoration: none;
+}
+h1,
+h2,
+h3 {
+  line-height: 1.4;
+}
+h1 {
+  font-size: clamp(1.35rem, 3vw, 2rem);
+}
+header h1 {
+  margin: 0;
+  line-height: 1.15;
+}
+h2 {
+  margin-top: 2rem;
+  font-size: 1.15rem;
+}
+footer {
+  margin-top: 3rem;
+  font-size: 0.875rem;
+}
+aside {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid;
+}
+li + li {
+  margin-top: 0.75rem;
+}
+a {
+  color: inherit;
+  text-underline-offset: 0.2em;
+}
+a:focus-visible {
+  outline: 2px solid;
+  outline-offset: 4px;
+}
+code {
+  font-size: 0.9em;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #ecebe8;
+    background-color: #1b1b1b;
+  }
+}
+@media (max-width: 40rem) {
+  main {
+    margin: 1.5rem auto;
+    padding: 0 1rem;
+  }
+}

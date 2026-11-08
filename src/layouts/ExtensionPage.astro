@@ -1,0 +1,30 @@
+---
+import { render } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import Page from "./Page.astro";
+import Policy from "../components/Policy.astro";
+import { messages, type Language } from "../i18n";
+import type { ExtensionProps } from "../lib/extension-paths";
+interface Props extends ExtensionProps { lang: Language }
+const { extension, lang } = Astro.props;
+const copy = messages[lang];
+const { Content } = await render(extension);
+---
+<Page title={`${extension.data.name[lang]} — ${copy.title}`} lang={lang} slug={extension.id}>
+  <header slot="header">
+    <div>
+      <img src={extension.data.icon ?? "/icons/extension.svg"} alt="" width="64" height="64" />
+      <div>
+        <p>{extension.data.name[lang]}</p>
+        <h1 id={`policy-${lang}`} lang="en">Privacy Policy</h1>
+      </div>
+    </div>
+    <nav aria-label={copy.languageLabel}>
+      <a href={getRelativeLocaleUrl("en", `${extension.id}/`)} lang="en" hreflang="en" aria-current={lang === "en" ? "page" : undefined}>English</a>
+      <a href={getRelativeLocaleUrl("ja", `${extension.id}/`)} lang="ja" hreflang="ja" aria-current={lang === "ja" ? "page" : undefined}>日本語</a>
+    </nav>
+  </header>
+  <Policy lang={lang} data={extension.data}>
+    {extension.body?.trim() && <aside aria-label={copy.notesHeading}><Content /></aside>}
+  </Policy>
+</Page>

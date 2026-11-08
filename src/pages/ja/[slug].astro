@@ -1,0 +1,8 @@
+---
+import ExtensionPage from "../../layouts/ExtensionPage.astro";
+import { getExtensionPaths, type ExtensionProps } from "../../lib/extension-paths";
+export const getStaticPaths = getExtensionPaths;
+type Props = ExtensionProps;
+const { extension } = Astro.props;
+---
+<ExtensionPage extension={extension} lang="ja" />
