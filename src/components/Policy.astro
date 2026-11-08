@@ -1,29 +1,30 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { messages, type Language } from "../i18n";
 import NoData from "./patterns/NoData.astro";
 import LocalOnly from "./patterns/LocalOnly.astro";
 import UserConfigured from "./patterns/UserConfigured.astro";
-interface Props { lang: "en" | "ja"; data: CollectionEntry<"extensions">["data"] }
+interface Props { lang: Language; data: CollectionEntry<"extensions">["data"] }
 const { lang, data } = Astro.props;
-const en = lang === "en";
-const date = new Intl.DateTimeFormat(en ? "en-US" : "ja-JP", { dateStyle: "long", timeZone: "UTC" }).format(new Date(`${data.updated}T00:00:00Z`));
+const copy = messages[lang];
+const date = new Intl.DateTimeFormat(copy.locale, { dateStyle: "long", timeZone: "UTC" }).format(new Date(`${data.updated}T00:00:00Z`));
 ---
 <section lang={lang} aria-labelledby={`policy-${lang}`}>
-  <h2 id={`policy-${lang}`}>{en ? "Privacy Policy" : "プライバシーポリシー"}</h2>
-  <p><small>{en ? "Last updated: " : "最終更新日: "}<time datetime={data.updated}>{date}</time></small></p>
-  <p>{en ? `This privacy policy describes how simochee (the developer) handles data for the browser extension “${data.name.en}”.` : `本ポリシーでは、simochee（開発者）によるブラウザ拡張機能「${data.name.ja}」のデータの取り扱いについて説明します。`}</p>
+  <h2 id={`policy-${lang}`}>{copy.title}</h2>
+  <p><small>{copy.updated}<time datetime={data.updated}>{date}</time></small></p>
+  <p>{copy.introduction(data.name[lang])}</p>
   {data.unofficial && <p>{data.unofficialNote?.[lang]}</p>}
-  <h3>{en ? "Data the extension handles" : "扱うデータ"}</h3>
+  <h3>{copy.dataHeading}</h3>
   {data.storedData.length > 0 && <ul>{data.storedData.map((item) => <li>{item[lang]}</li>)}</ul>}
   {data.pattern === "no-data" && <NoData lang={lang} />}
   {data.pattern === "local-only" && <LocalOnly lang={lang} />}
   {data.pattern === "user-configured" && <UserConfigured lang={lang} data={data} />}
-  <p>{en ? "The developer does not operate any servers for this extension. The extension does not use analytics or tracking, does not sell or share your data with third parties, and does not load remote code." : "開発者は本拡張機能のためのサーバーを運営していません。本拡張機能は解析やトラッキングを行わず、データを販売したり第三者と共有したりすることはなく、リモートのコードも読み込みません。"}</p>
-  <h3>{en ? "Removing your data" : "データの削除"}</h3>
+  <p>{copy.commitments}</p>
+  <h3>{copy.removalHeading}</h3>
   <p>{data.removal[lang]}</p>
-  <h3>{en ? "Disclaimer" : "免責事項"}</h3>
-  <p>{en ? 'This extension is provided “as is,” without warranty of any kind. As this is a personal project, the developer shall not be liable for any damages arising out of its use.' : "本拡張機能は現状のまま提供され、いかなる保証も行いません。個人のプロジェクトであり、本拡張機能の使用によって生じたいかなる損害についても、開発者は責任を負いません。"}</p>
-  <h3>{en ? "Contact" : "お問い合わせ"}</h3>
-  <p>{en ? "For questions about this policy, email " : "本ポリシーについてのお問い合わせは、"}<a href="mailto:contact@simochee.net">contact@simochee.net</a>{!en && " までご連絡ください。"}</p>
-  {data.supportUrl && <p><a href={data.supportUrl}>{en ? "You can also open an issue on GitHub." : "GitHub に Issue を作成することもできます。"}</a></p>}
+  <h3>{copy.disclaimerHeading}</h3>
+  <p>{copy.disclaimer}</p>
+  <h3>{copy.contactHeading}</h3>
+  <p>{copy.emailBefore}<a href="mailto:contact@simochee.net">contact@simochee.net</a>{copy.emailAfter}</p>
+  {data.supportUrl && <p><a href={data.supportUrl}>{copy.support}</a></p>}
 </section>

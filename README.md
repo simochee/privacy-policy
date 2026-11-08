@@ -95,7 +95,12 @@ translations, and invalid pattern-specific fields fail the build.
   credentials are sent only to the service the user configured. Nothing goes to
   the developer.
 
-Shared wording lives in `src/components/patterns/` and `Policy.astro`. Each page
+Shared wording lives in `src/i18n/en.ts` and `src/i18n/ja.ts`, following Astro's
+[translation dictionary recipe](https://docs.astro.build/en/recipes/i18n/).
+Templates select `messages[lang]`; the Japanese dictionary must satisfy the
+English dictionary's key and value types, including nested pattern wording.
+Extension-specific translations remain in frontmatter. Built-in locale routing
+is unnecessary because both languages appear at the same URL. Each page
 includes the developer's identity, absence of developer-operated servers,
 analytics/tracking, sale/sharing, and remote code, an “as is” disclaimer, and
 `contact@simochee.net`. Backlog Live Update also retains the original GitHub

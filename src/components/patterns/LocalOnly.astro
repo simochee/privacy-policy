@@ -1,9 +1,7 @@
 ---
-interface Props { lang: "en" | "ja" }
+import { messages, type Language } from "../../i18n";
+interface Props { lang: Language }
 const { lang } = Astro.props;
+const copy = messages[lang];
 ---
-{lang === "en" ? (
-  <p>This extension stores settings and credentials only in your browser to provide its functionality. They are never sent anywhere; all processing takes place locally on your device.</p>
-) : (
-  <p>本拡張機能は、機能を提供するための設定や認証情報をブラウザ内にのみ保存します。これらを外部に送信することはなく、すべての処理を端末内で行います。</p>
-)}
+<p>{copy.patterns.localOnly}</p>
