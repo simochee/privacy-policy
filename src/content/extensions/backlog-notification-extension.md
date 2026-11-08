@@ -12,15 +12,13 @@ unofficialNote:
 storedData:
   - en: The Backlog space domain and API key you enter in the options.
     ja: オプションで入力した Backlog のスペースドメインと API キー。
-  - en: The tab you last selected in the popup.
-    ja: ポップアップで最後に選択したタブ。
 hosts:
   - "*.backlog.com"
   - "*.backlog.jp"
 requests:
-  en: The extension checks your unread notification count every minute. When you open the popup, it loads your notifications and recently viewed projects and issues. It marks notifications as read only when you ask it to. Notifications and issues are not saved.
-  ja: 未読のお知らせの件数を 1 分ごとに確認します。ポップアップを開いたときに、お知らせと最近見たプロジェクト・課題を読み込みます。お知らせを既読にするのは、利用者が操作したときだけです。お知らせや課題の内容は保存しません。
+  en: The extension periodically checks your space for notifications. The API key is sent only to that space.
+  ja: 設定したスペースのお知らせを定期的に確認します。API キーは、そのスペースにだけ送信します。
 removal:
-  en: Clear the space domain and API key in the extension options and save, or uninstall the extension to remove all stored data.
-  ja: 拡張機能のオプションでスペースドメインと API キーを空にして保存するか、拡張機能をアンインストールすると、保存されたデータを削除できます。
+  en: Clear the space domain and API key in the extension options and save, or uninstall the extension to remove all stored settings.
+  ja: 拡張機能のオプションでスペースドメインと API キーを空にして保存するか、拡張機能をアンインストールすると、保存された設定を削除できます。
 ---
