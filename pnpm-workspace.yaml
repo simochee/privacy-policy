@@ -1,0 +1,3 @@
+# Astro's WASM type checker uses emnapi core 1.x; its auto-installed 2.x beta peer is incompatible.
+overrides:
+  '@emnapi/runtime': 1.11.3

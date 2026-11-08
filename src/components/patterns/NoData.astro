@@ -1,0 +1,9 @@
+---
+interface Props { lang: "en" | "ja" }
+const { lang } = Astro.props;
+---
+{lang === "en" ? (
+  <p>This extension does not collect, store, or transmit any data.</p>
+) : (
+  <p>本拡張機能はデータを収集・保存・送信しません。</p>
+)}

@@ -1,0 +1,16 @@
+---
+import type { CollectionEntry } from "astro:content";
+interface Props {
+  lang: "en" | "ja";
+  data: Extract<CollectionEntry<"extensions">["data"], { pattern: "user-configured" }>;
+}
+const { lang, data } = Astro.props;
+---
+{lang === "en" ? (
+  <p>This extension stores settings and credentials in your browser and sends them only to the service you configured, for the extension's functionality. Nothing is sent to the developer.</p>
+) : (
+  <p>本拡張機能は設定や認証情報をブラウザ内に保存し、機能の提供に必要な範囲で、利用者が設定したサービスにのみ送信します。開発者には送信しません。</p>
+)}
+<h3>{lang === "en" ? "Where data is sent" : "データの送信先"}</h3>
+<ul>{data.hosts.map((host) => <li><code>{host}</code></li>)}</ul>
+<p>{data.requests[lang]}</p>
