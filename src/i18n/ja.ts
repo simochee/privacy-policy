@@ -3,21 +3,16 @@ import type { Messages } from "./en";
 export const ja = {
   locale: "ja-JP",
   title: "プライバシーポリシー",
+  languageLabel: "言語",
+  notesHeading: "補足",
   updated: "最終更新日: ",
-  introduction: (name: string) =>
-    `本ポリシーでは、simochee（開発者）によるブラウザ拡張機能「${name}」のデータの取り扱いについて説明します。`,
-  dataHeading: "扱うデータ",
-  destinationsHeading: "データの送信先",
-  commitments:
-    "開発者は本拡張機能のためのサーバーを運営していません。本拡張機能は解析やトラッキングを行わず、データを販売したり第三者と共有したりすることはなく、リモートのコードも読み込みません。",
+  dataHeading: "データの扱い",
+  destinationsHeading: "送信先",
   removalHeading: "データの削除",
-  disclaimerHeading: "免責事項",
   disclaimer:
-    "本拡張機能は現状のまま提供され、いかなる保証も行いません。個人のプロジェクトであり、本拡張機能の使用によって生じたいかなる損害についても、開発者は責任を負いません。",
-  contactHeading: "お問い合わせ",
-  emailBefore: "本ポリシーについてのお問い合わせは、",
-  emailAfter: " までご連絡ください。",
-  support: "GitHub に Issue を作成することもできます。",
+    "本拡張機能は現状のまま提供され、動作や利用結果を保証するものではありません。",
+  emailBefore: "お問い合わせ: ",
+  emailAfter: "",
   patterns: {
     noData: "本拡張機能はデータを収集・保存・送信しません。",
     localOnly:

@@ -10,21 +10,18 @@ const copy = messages[lang];
 const date = new Intl.DateTimeFormat(copy.locale, { dateStyle: "long", timeZone: "UTC" }).format(new Date(`${data.updated}T00:00:00Z`));
 ---
 <section lang={lang} aria-labelledby={`policy-${lang}`}>
-  <h2 id={`policy-${lang}`}>{copy.title}</h2>
   <p><small>{copy.updated}<time datetime={data.updated}>{date}</time></small></p>
-  <p>{copy.introduction(data.name[lang])}</p>
   {data.unofficial && <p>{data.unofficialNote?.[lang]}</p>}
-  <h3>{copy.dataHeading}</h3>
-  {data.storedData.length > 0 && <ul>{data.storedData.map((item) => <li>{item[lang]}</li>)}</ul>}
+  <h2>{copy.dataHeading}</h2>
+  {data.storedData && data.storedData.length > 0 && <ul>{data.storedData.map((item) => <li>{item[lang]}</li>)}</ul>}
   {data.pattern === "no-data" && <NoData lang={lang} />}
   {data.pattern === "local-only" && <LocalOnly lang={lang} />}
   {data.pattern === "user-configured" && <UserConfigured lang={lang} data={data} />}
-  <p>{copy.commitments}</p>
-  <h3>{copy.removalHeading}</h3>
+  <h2>{copy.removalHeading}</h2>
   <p>{data.removal[lang]}</p>
-  <h3>{copy.disclaimerHeading}</h3>
-  <p>{copy.disclaimer}</p>
-  <h3>{copy.contactHeading}</h3>
-  <p>{copy.emailBefore}<a href="mailto:contact@simochee.net">contact@simochee.net</a>{copy.emailAfter}</p>
-  {data.supportUrl && <p><a href={data.supportUrl}>{copy.support}</a></p>}
+  <slot />
 </section>
+<footer>
+  <p>simochee · {copy.emailBefore}<a href="mailto:contact@simochee.net">contact@simochee.net</a>{copy.emailAfter}</p>
+  <p><small>{copy.disclaimer}</small></p>
+</footer>

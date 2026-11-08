@@ -1,19 +1,8 @@
 ---
-import { getCollection, render } from "astro:content";
-import type { CollectionEntry } from "astro:content";
-import Page from "../layouts/Page.astro";
-import Policy from "../components/Policy.astro";
-export async function getStaticPaths() {
-  const extensions = await getCollection("extensions");
-  return extensions.map((extension) => ({ params: { slug: extension.id }, props: { extension } }));
-}
-interface Props { extension: CollectionEntry<"extensions"> }
+import ExtensionPage from "../layouts/ExtensionPage.astro";
+import { getExtensionPaths, type ExtensionProps } from "../lib/extension-paths";
+export const getStaticPaths = getExtensionPaths;
+type Props = ExtensionProps;
 const { extension } = Astro.props;
-const { Content } = await render(extension);
 ---
-<Page title={`${extension.data.name.en} — Privacy Policy`}>
-  <h1>{extension.data.name.en}</h1>
-  <Policy lang="en" data={extension.data} />
-  <Policy lang="ja" data={extension.data} />
-  {extension.body?.trim() && <aside aria-label="Additional notes / 補足"><Content /></aside>}
-</Page>
+<ExtensionPage extension={extension} lang="en" />

@@ -1,7 +1,9 @@
 # Extension privacy policies
 
 Standalone English and Japanese privacy policies for simochee's browser extensions,
-built with Astro and published at `https://privacy.simochee.net/<slug>/`.
+built with Astro and published in English at `https://privacy.simochee.net/<slug>/`
+and in Japanese at `https://privacy.simochee.net/ja/<slug>/`. A header language
+switcher links to the same extension in the other language.
 There is no home page or navigation between extensions. GitHub Pages serves the
 custom `404.html` for `/` and unknown page paths; generated CSS is served as an asset.
 The published pages contain no client-side JavaScript or external font dependencies.
@@ -17,7 +19,8 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Open `/backlog-live-update/`; `/` intentionally has no page.
+Open `/backlog-live-update/` (English) or `/ja/backlog-live-update/` (Japanese).
+`/` and `/ja/` intentionally have no index page.
 
 ```sh
 pnpm check   # Astro type checks and Biome lint/format checks
@@ -40,13 +43,16 @@ verified after the human finishes deployment setup.
 ## Add an extension
 
 1. Add `src/content/extensions/<slug>.md` using a lowercase kebab-case filename.
-   The filename becomes `/<slug>/`; no route or navigation registration is needed.
-   Keep slugs unique and do not use `404`, which is reserved for the error page.
+   The filename generates both `/<slug>/` and `/ja/<slug>/`; no route or navigation
+   registration is needed. Keep slugs unique; `404` and `ja` are reserved.
 2. Select the pattern that matches the extension's actual permissions and data use.
    Copy the example below or `backlog-live-update.md` for an API-using extension.
+   To show its icon, place the file in `public/icons/` and set `icon: /icons/file.svg`;
+   omit `icon` to use the shared icon. SVG, PNG, WebP, and JPEG are supported.
 3. Supply both `en` and `ja` for every prose parameter. Review both languages
    against the implementation and store disclosures, including session storage,
-   transient API data, credential scope, and revocation.
+   transient data and credential scope. Keep the policy concise and add extra
+   details only when an extension differs from its shared pattern.
    Write Japanese values on one line; YAML folded blocks (`>-`) insert unwanted spaces at line joins.
 4. Run `pnpm check`, `pnpm test`, and `pnpm build`. Inspect the new page in
    `pnpm preview` before submitting a pull request.
@@ -59,9 +65,6 @@ name:
 updated: "2026-11-08"
 pattern: local-only
 unofficial: false
-storedData:
-  - en: Display preferences, stored only in the browser.
-    ja: ブラウザ内にのみ保存する表示設定。
 removal:
   en: Uninstall the extension to remove its settings.
   ja: 拡張機能をアンインストールすると設定が削除されます。
@@ -77,42 +80,47 @@ translations, and invalid pattern-specific fields fail the build.
 | Field | Shape / requirement |
 | --- | --- |
 | `name` | Required `{ en, ja }` nonempty strings |
+| `icon` | Optional local `/icons/filename` path; the file must exist in `public/icons/`. Defaults to `/icons/extension.svg` |
 | `updated` | Required quoted ISO calendar date, `YYYY-MM-DD` |
 | `pattern` | Required `no-data`, `local-only`, or `user-configured` |
 | `unofficial` | Required boolean |
 | `unofficialNote` | Required `{ en, ja }` exactly when `unofficial: true`; state whose official product it is not |
-| `supportUrl` | Optional HTTPS URL for the extension's existing support channel; email contact is always shown |
-| `storedData` | Required list of `{ en, ja }` descriptions, including purpose, storage location, and lifetime |
-| `removal` | Required `{ en, ja }` deletion instructions; include credential revocation separately where relevant |
-| `hosts` | Required nonempty hostname list for `user-configured` only; optional leading `*.` allowed |
-| `requests` | Required `{ en, ja }` for `user-configured` only: what is sent/fetched, when, to which configured service, and how credentials are scoped; describe data that is not stored here |
+| `storedData` | Optional `{ en, ja }` list when stored data needs more explanation; empty only for `no-data` |
+| `removal` | Required `{ en, ja }` deletion instructions for data stored by the extension |
+| `hosts` | Optional nonempty hostname list for `user-configured` when destinations need to be listed; leading `*.` allowed |
+| `requests` | Optional `{ en, ja }` for `user-configured` only: additional request behavior that the shared pattern and host list do not cover |
 
-- `no-data`: `storedData: []`; the extension collects, stores, and sends nothing.
-  Use `removal` to explain that there is no stored data to remove.
-- `local-only`: nonempty `storedData`; settings and credentials stay in the browser
-  and are never sent anywhere.
-- `user-configured`: nonempty `storedData`, `hosts`, and `requests`; settings and
-  credentials are sent only to the service the user configured. Nothing goes to
-  the developer.
+- `no-data`: the extension collects, stores, and sends nothing.
+- `local-only`: settings and credentials stay in the browser and are never sent anywhere.
+- `user-configured`: settings and credentials are sent only to the service the user
+  configured. Nothing goes to the developer.
+
+The pattern, deletion instructions, and unofficial notice are normally enough.
+Use `storedData`, `hosts`, or `requests` only for details that need to be disclosed
+beyond the shared pattern. `no-data` does not allow a nonempty `storedData` list.
 
 Shared wording lives in `src/i18n/en.ts` and `src/i18n/ja.ts`, following Astro's
 [translation dictionary recipe](https://docs.astro.build/en/recipes/i18n/).
 Templates select `messages[lang]`; the Japanese dictionary must satisfy the
 English dictionary's key and value types, including nested pattern wording.
-Extension-specific translations remain in frontmatter. Built-in locale routing
-is unnecessary because both languages appear at the same URL. Each page
-includes the developer's identity, absence of developer-operated servers,
-analytics/tracking, sale/sharing, and remote code, an “as is” disclaimer, and
-`contact@simochee.net`. Backlog Live Update also retains the original GitHub
-Issue contact. Its reviewed source policy is reproduced in meaning, with the
-shared disclaimer and email contact added.
+Extension-specific translations remain in frontmatter. Astro
+[built-in i18n routing](https://docs.astro.build/en/guides/internationalization/)
+uses English as the default without a prefix, and Japanese under `/ja/`.
+Language links and canonical/alternate URLs use the official `astro:i18n` helpers. Each page
+identifies the extension and its developer, explains the pattern's data handling,
+and shows deletion instructions and the unofficial notice when applicable.
+The page header groups the icon, extension name, and the shared English heading
+“Privacy Policy”. Extension-specific data handling appears first; the footer
+contains only the email contact and a brief “as is” notice.
 
-The Markdown body is optional. It is rendered once in a fixed **appendix after
-both complete policies**; use it only for extra extension-specific notes, with
-English first and Japanese second (use `##` headings and mark Japanese HTML
-sections with `lang="ja"` if appropriate). Keep all facts needed to understand
-data use in the bilingual frontmatter, so each language's policy is complete.
-Use plain Markdown without scripts, embeds, or links to other pages on this site.
+The Markdown body is optional and shared by both language versions. It renders
+in an **appendix after the policy**; provide English and Japanese together for
+extra notes (use `##` headings and mark Japanese HTML sections with `lang="ja"`
+if appropriate). Keep all facts needed to understand data use in the bilingual
+frontmatter, so each language's policy is complete. Normal Markdown line breaks
+render as `<br>` through `remark-breaks`; blank lines still separate paragraphs.
+This applies to the Markdown body, not YAML frontmatter values. Use plain Markdown
+without scripts, embeds, or links to other policies on this site.
 
 ## Deployment and manual setup
 
@@ -132,8 +140,9 @@ repository settings or DNS:
    DNS and provision TLS. Do not include the repository name in the target.
 4. Merge the PR to `main` (or rerun the deployment workflow after setup), wait for
    the Pages deployment and DNS/certificate checks, and enable **Enforce HTTPS**
-   when available. Confirm `/backlog-live-update/` loads and `/` and an unknown
-   path return HTTP 404 with the error page.
+   when available. Confirm both `/backlog-live-update/` and
+   `/ja/backlog-live-update/` load and the header switches languages; `/`, `/ja/`,
+   and unknown paths must return HTTP 404 with the error page.
 
 There is deliberately **no `public/CNAME`**: with a custom GitHub Actions
 workflow, GitHub Pages ignores it and does not require it. The custom domain is

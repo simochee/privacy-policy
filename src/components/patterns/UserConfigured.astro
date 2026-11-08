@@ -9,6 +9,5 @@ const { lang, data } = Astro.props;
 const copy = messages[lang];
 ---
 <p>{copy.patterns.userConfigured}</p>
-<h3>{copy.destinationsHeading}</h3>
-<ul>{data.hosts.map((host) => <li><code>{host}</code></li>)}</ul>
-<p>{data.requests[lang]}</p>
+{data.hosts && <p>{copy.destinationsHeading}: <code>{data.hosts.join(", ")}</code></p>}
+{data.requests && <p>{data.requests[lang]}</p>}

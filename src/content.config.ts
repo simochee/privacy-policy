@@ -1,4 +1,5 @@
 import { defineCollection } from "astro:content";
+import { existsSync } from "node:fs";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
@@ -7,13 +8,17 @@ const prose = z
   .strict();
 const common = {
   name: prose,
+  icon: z
+    .string()
+    .regex(/^\/icons\/[a-zA-Z0-9][a-zA-Z0-9._-]*\.(?:svg|png|webp|jpe?g)$/)
+    .refine(
+      (path) => existsSync(`public${path}`),
+      "Icon file must exist in public/icons",
+    )
+    .optional(),
   updated: z.iso.date(),
   unofficial: z.boolean(),
   unofficialNote: prose.optional(),
-  supportUrl: z
-    .url()
-    .refine((url) => url.startsWith("https://"), "Use an HTTPS support URL")
-    .optional(),
   removal: prose,
 };
 
@@ -23,7 +28,10 @@ const extensions = defineCollection({
     base: "./src/content/extensions",
     generateId: ({ entry }) => {
       const slug = entry.slice(0, -3);
-      if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || slug === "404") {
+      if (
+        !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) ||
+        ["404", "ja"].includes(slug)
+      ) {
         throw new Error(`Invalid or reserved extension slug: ${slug}`);
       }
       return slug;
@@ -35,29 +43,30 @@ const extensions = defineCollection({
         .object({
           ...common,
           pattern: z.literal("no-data"),
-          storedData: z.array(prose).length(0),
+          storedData: z.array(prose).length(0).optional(),
         })
         .strict(),
       z
         .object({
           ...common,
           pattern: z.literal("local-only"),
-          storedData: z.array(prose).min(1),
+          storedData: z.array(prose).min(1).optional(),
         })
         .strict(),
       z
         .object({
           ...common,
           pattern: z.literal("user-configured"),
-          storedData: z.array(prose).min(1),
+          storedData: z.array(prose).min(1).optional(),
           hosts: z
             .array(
               z
                 .string()
                 .regex(/^(\*\.)?[a-z0-9]+(?:[.-][a-z0-9]+)*\.[a-z]{2,}$/),
             )
-            .min(1),
-          requests: prose,
+            .min(1)
+            .optional(),
+          requests: prose.optional(),
         })
         .strict(),
     ])
