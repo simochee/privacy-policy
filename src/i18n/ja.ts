@@ -11,7 +11,7 @@ export const ja = {
   removalHeading: "データの削除",
   disclaimer:
     "本拡張機能は現状のまま提供され、動作や利用結果を保証するものではありません。",
-  emailBefore: "お問い合わせは ",
+  emailBefore: "プライバシーポリシーについてのお問い合わせは ",
   emailAfter: " までご連絡ください。",
   patterns: {
     noData: "本拡張機能はデータを収集・保存・送信しません。",
