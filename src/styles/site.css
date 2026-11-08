@@ -2,6 +2,8 @@
   color-scheme: light dark;
   font-family: "Shippori Mincho", serif;
   line-height: 1.8;
+  color: #252525;
+  background-color: #fff;
 }
 body {
   margin: 0;
@@ -31,11 +33,12 @@ header > div {
 }
 header img {
   flex: none;
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 4rem;
+  height: 4rem;
 }
 header p {
   margin: 0 0 0.25rem;
+  line-height: 1.2;
 }
 header a[aria-current="page"] {
   font-weight: bold;
@@ -51,6 +54,7 @@ h1 {
 }
 header h1 {
   margin: 0;
+  line-height: 1.15;
 }
 h2 {
   margin-top: 2rem;
@@ -78,6 +82,12 @@ a:focus-visible {
 }
 code {
   font-size: 0.9em;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #ecebe8;
+    background-color: #1b1b1b;
+  }
 }
 @media (max-width: 40rem) {
   main {
