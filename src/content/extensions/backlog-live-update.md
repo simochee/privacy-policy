@@ -26,17 +26,10 @@ requests:
     Issue and pull request data (the issue key or pull request number of the page you have open,
     and its fields, comments, stars, and notification read status) are fetched from your Backlog
     space only to update the page you are viewing, and are not stored by the extension.
-  ja: >-
-    Backlog Live Update は、開いている Backlog の課題ページとプルリクエストページをリロードなしで最新の状態に保つ拡張機能です。
-    表示中のタブの Backlog ホストにのみ、追加したスペースに限ってリクエストを送ります。
-    API キーも、それぞれのスペースへのリクエストにだけ含めます。
-    課題とプルリクエストのデータ（開いている課題のキーやプルリクエストの番号と、その項目・コメント・スター・お知らせの既読状況）は、
-    表示中のページを更新するためだけにあなたの Backlog スペースから取得し、本拡張機能が保存することはありません。
+  ja: Backlog Live Update は、開いている Backlog の課題ページとプルリクエストページをリロードなしで最新の状態に保つ拡張機能です。表示中のタブの Backlog ホストにのみ、追加したスペースに限ってリクエストを送ります。API キーも、それぞれのスペースへのリクエストにだけ含めます。課題とプルリクエストのデータ（開いている課題のキーやプルリクエストの番号と、その項目・コメント・スター・お知らせの既読状況）は、表示中のページを更新するためだけにあなたの Backlog スペースから取得し、本拡張機能が保存することはありません。
 removal:
   en: >-
     Remove a space in the extension options, or uninstall the extension, to remove the stored settings
     from your browser. To revoke the API key itself, delete it from Personal Settings → API in Backlog.
-  ja: >-
-    拡張機能のオプションでスペースを削除するか、本拡張機能をアンインストールすると、保存された設定はブラウザから削除されます。
-    API キー自体を無効にするには、Backlog の「個人設定 → API」から削除してください。
+  ja: 拡張機能のオプションでスペースを削除するか、本拡張機能をアンインストールすると、保存された設定はブラウザから削除されます。API キー自体を無効にするには、Backlog の「個人設定 → API」から削除してください。
 ---

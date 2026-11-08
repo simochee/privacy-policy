@@ -47,6 +47,7 @@ verified after the human finishes deployment setup.
 3. Supply both `en` and `ja` for every prose parameter. Review both languages
    against the implementation and store disclosures, including session storage,
    transient API data, credential scope, and revocation.
+   Write Japanese values on one line; YAML folded blocks (`>-`) insert unwanted spaces at line joins.
 4. Run `pnpm check`, `pnpm test`, and `pnpm build`. Inspect the new page in
    `pnpm preview` before submitting a pull request.
 

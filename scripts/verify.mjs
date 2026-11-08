@@ -93,11 +93,19 @@ function checkOutput() {
     !/<a\s[^>]*href=["'](?:\/|https:\/\/privacy\.simochee\.net)/i.test(html),
     "No links to other site pages",
   );
-  for (const path of htmlFiles("dist"))
-    assert(
-      !/<script\b/i.test(readFileSync(path, "utf8")),
-      `Client script in ${path}`,
-    );
+  for (const path of htmlFiles("dist")) {
+    const page = readFileSync(path, "utf8");
+    assert(!/<script\b/i.test(page), `Client script in ${path}`);
+    for (const section of page.matchAll(
+      /<section\b[^>]*\blang="ja"[^>]*>([\s\S]*?)<\/section>/g,
+    )) {
+      assert.doesNotMatch(
+        text(section[1]),
+        /[。、] /u,
+        `Unexpected space after Japanese punctuation in ${path}`,
+      );
+    }
+  }
 }
 
 try {
