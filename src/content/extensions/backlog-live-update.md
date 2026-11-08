@@ -2,7 +2,7 @@
 name:
   en: Backlog Live Update
   ja: Backlog Live Update
-icon: /icons/backlog-live-update.svg
+icon: https://raw.githubusercontent.com/simochee/backlog-live-update/main/assets/icon.svg
 updated: "2026-11-08"
 pattern: user-configured
 unofficial: true

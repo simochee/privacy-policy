@@ -6,13 +6,20 @@ import { z } from "astro/zod";
 const prose = z
   .object({ en: z.string().trim().min(1), ja: z.string().trim().min(1) })
   .strict();
+const localIcon =
+  /^\/icons\/[a-zA-Z0-9][a-zA-Z0-9._-]*\.(?:svg|png|webp|jpe?g)$/;
+const githubIcon =
+  /^https:\/\/raw\.githubusercontent\.com\/[\w.-]+\/[\w.-]+\/[\w./%-]+\.(?:svg|png|webp|jpe?g)$/;
 const common = {
   name: prose,
   icon: z
     .string()
-    .regex(/^\/icons\/[a-zA-Z0-9][a-zA-Z0-9._-]*\.(?:svg|png|webp|jpe?g)$/)
     .refine(
-      (path) => existsSync(`public${path}`),
+      (path) => localIcon.test(path) || githubIcon.test(path),
+      "Use a local /icons/ path or a raw GitHub image URL",
+    )
+    .refine(
+      (path) => githubIcon.test(path) || existsSync(`public${path}`),
       "Icon file must exist in public/icons",
     )
     .optional(),
