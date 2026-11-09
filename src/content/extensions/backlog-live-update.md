@@ -12,8 +12,6 @@ unofficialNote:
 storedData:
   - en: The Backlog spaces you add (space key, API key, and on/off) and the update interval.
     ja: 追加した Backlog スペース（スペースキー、API キー、オン/オフ）と更新間隔。
-  - en: When you click the toolbar icon on a Backlog page, the space key and address of that space, to suggest it in the options. This is kept only until the browser is closed.
-    ja: Backlog のページでツールバーのアイコンをクリックしたときの、そのスペースのスペースキーとアドレス。オプションで候補として表示するためのもので、ブラウザを閉じるまでだけ保持します。
 hosts:
   - "*.backlog.com"
   - "*.backlog.jp"
